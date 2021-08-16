@@ -1,0 +1,9 @@
+
+
+<button bindtap='Topage2'>点灯</button>
+<button bindtap="Topage">跳转音乐</button>
+<button bindtap="Topage1">分数</button>
+<!--
+<view class="devices_summary">已发现 {{devices.length}} 个外围设备：</view>
+-->
+

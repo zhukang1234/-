@@ -1,0 +1,25 @@
+
+  <view class="background">
+  <view class="title">
+  <strong class="text">请选择颜色</strong>
+  <subtitle class="text">可通过下方滑块颜色预览</subtitle>
+  </view>
+    <slider bindchanging="changeHue" activeColor="transparent" backgroundColor="transparent" class="ribbon" max="360" value="{{hsv.v}}" block-color="white" bindtouchend="onEnd" />
+    <movable-area  class="target">
+      <image src="/miniprogram_npm/mini-color-picker/download.jpeg">
+      <movable-view direction="all" bindtouchstart="start" bindchange="changeSV" x="{{x}}" y="{{y}}" animation="{{false}}" class="iconfont icon-ios-locate-outline" bindtouchend="onEnd"></movable-view></image>
+    </movable-area>
+    <view class="Color">
+      <view class="tobutton">
+      <button bindtap="setBlack" style="background-color: black;width: 150rpx;height: 150rpx; margin-right: 50rpx"  class="Color_button_black"></button>
+  <button bindtap="setWhite" style="background-color: white;width: 150rpx;height: 150rpx;"class="Color_button"></button>
+  </view>
+  </view>
+  <button wx:if="{{load}}" class="buttonload" >蓝牙已连接</button>
+  <button wx:else class="buttonload" loading="{{true}}">蓝牙连接中</button>
+</view>
+
+
+<!--
+<view class="devices_summary">已发现 {{devices.length}} 个外围设备：</view>
+-->

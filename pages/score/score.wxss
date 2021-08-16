@@ -1,0 +1,125 @@
+/* pages/fird/fird.wxss */
+.score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 100px;
+  margin-bottom: 10px;
+}
+.score_head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height: 90%;
+  box-shadow:0px 3px 5px 1px darkgray;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: lightgray;
+}
+.score_r {
+  color: #ef3340;
+}
+.score_b {
+  color: #1e90ff;
+}
+.Change {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+.Line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
+  height: 200px;
+}
+.line {
+  display: flex;
+
+  width: 1px;
+  height: 70%;
+
+  background-color: #b3b3b3 ;
+}
+.Red {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  height: 200px;
+  flex-direction: column;
+  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.Blue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  height: 200px;
+  flex-direction: column;
+  margin-left: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.R_button {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  color: white;
+  font-size: larger;
+  background-color:#ef3340;
+  margin-right: 10px;
+  margin-top: 20px;
+  border-radius: 50%;
+}
+.B_button {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  color: white;
+  font-size: larger;
+  background-color:#1e90ff ;
+  margin-left: 10px;
+  margin-top: 20px;
+  border-radius: 50%;
+}
+.mul {
+  
+  color:darkgray;
+}
+.red-1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+}
+.red-2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+}
+.blue-1{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+}
+.blue-2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+}
+image {
+  width: 100%;
+}

@@ -1,0 +1,2 @@
+<button bindtap='start'>开始连接</button>
+<button bindtap="close">关闭设备</button>

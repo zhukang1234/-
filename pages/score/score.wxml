@@ -1,0 +1,21 @@
+<!--pages/fird/fird.wxml-->
+
+<view class="score">
+<button class="score_head" bindtap="clear" style="width: 90%; height: 90%">
+  <text decode="true" class="score"><text class="score_r">{{score_r}}</text>&nbsp;<text class="mul">-</text>&nbsp;<text class="score_b">{{score_b}}</text></text>
+</button>
+</view>
+
+
+<view class="Change">
+<view class="Red">
+<view class="red-1"><button style="width: 1px;" class="R_button" bindtap="add_R">+</button></view>
+<view class="red-2"><button style="width: 1px;" class="R_button" bindtap="mul_R">-</button></view>
+</view>
+<view class="Line"><view class="line"></view></view>
+<view class="Blue">
+<view class="blue-1"><button style="width: 1px;" class="B_button" bindtap="add_B">+</button></view>
+<view class="blue-2"><button style="width: 1px;" class="B_button" bindtap="mul_B">-</button></view>
+</view>
+</view>
+<image src="./img/de143ed789edbd6fadf66de5ef187b56.png"></image>
