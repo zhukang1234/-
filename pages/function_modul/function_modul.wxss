@@ -1,0 +1,44 @@
+/* pages/function_modul/function_modul.wxss */
+.light {
+  display: flex;
+  border-radius: 50%;
+  margin-bottom: 40rpx;
+  /*所有的url为链接图片位置建议把所有的图片存放进网上，减少程序包内容*/
+  background-image: url(https://i.postimg.cc/xdTtnnn4/01.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.music {
+  display: flex;
+  border-radius: 50%;
+  margin-bottom: 40rpx;
+  background-image: url(https://i.postimg.cc/W4WS4C4b/02.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.score {
+  display: flex;
+  border-radius: 50%;
+  margin-bottom: 40rpx;
+  background-image: url(https://i.postimg.cc/nzNk4m7y/03.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.tcp {
+  display: flex;
+  border-radius: 50%;
+  margin-bottom: 40rpx;
+  background-image: url(https://i.postimg.cc/fLVCSC37/04.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.left {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.right {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+}

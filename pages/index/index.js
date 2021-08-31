@@ -1,31 +1,32 @@
 var app = getApp();
 
 Page({
-data: {
-   score: 0
-},
-onLoad:function(){
-wx.onBluetoothAdapterStateChange(function (res) {
-console.log('adapterState changed, now is', res)
-})
-
-},
-//跳转音乐游戏
-Topage:function(){
-wx.redirectTo({
-  url: '../music_game/music_game',
-})
-},
-//跳转计分器
-Topage1:function(){
-  wx.redirectTo({
-    url: '../score/score',
-  })
+  data: {
+    //轮播图图片目录
+    movies: [{
+        url: 'http://test.top10baike.com/wp-content/uploads/2021/08/001-scaled.jpg',
+        id: 1
+      },
+      {
+        url: 'http://test.top10baike.com/wp-content/uploads/2021/08/002-scaled.jpg',
+        id: 2
+      },
+      {
+        url: 'http://test.top10baike.com/wp-content/uploads/2021/08/003-scaled.jpg',
+        id: 3
+      },
+      {
+        url: 'http://test.top10baike.com/wp-content/uploads/2021/08/004-scaled.jpg',
+        id: 4
+      },
+      {
+        url: 'http://test.top10baike.com/wp-content/uploads/2021/08/005-scaled.jpg',
+        id: 5
+      }
+    ],
   },
-//跳转点灯
-Topage2:function(){
-    wx.redirectTo({
-      url: '../light/light',
-    })
-    }
+  onLoad: function () {
+   
+  },
+
 })

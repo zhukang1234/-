@@ -1,22 +1,17 @@
 var app = getApp();
-var deviceId;
-var i=0;
-var serviceId=[];
-var characteristicId=[];
-
-var time=0;
 var newDateTime = (new Date()).valueOf();//获取当前毫秒数
 var newDateTime_2 = (new Date()).valueOf();
+//return new Promise(function (resolve, reject) { 为异步处理
 Page({
 data: {
   rgb: 'rgb(0,154,97)',//初始值
-  page:false,//防止一打开界面就调用点灯
-  pick: true,
-  initColor:'rgb(255,0,0)',
-  maskClosable:true,
-  mask:true,
-  show:true,
-  load:false
+  page:false,//页边加载是否完成（防止一打开界面就调用点灯）
+  initColor:'rgb(255,0,0)',//初始颜色
+  case:-1,//蓝牙连接是否成功
+  deviceId:0,//设备ID
+  i:0,//计数器
+  serviceId:[],//服务id
+  characteristicId:[],//特征值ID
 },
 onLoad:function(){
 wx.onBluetoothAdapterStateChange(function (res) {
@@ -50,14 +45,12 @@ let { initColor} = this.data;
             y: Math.round((100-50 )* this.SV.Step),
             showview: false,
             option: true,
-            load: false
           })
         }
       })
     
 
 },
-
 onUnload:function () {
   this.close()//关闭适配器
 },
@@ -75,39 +68,35 @@ setWhite: function () {
   this.light('rgb(255,255,255)')
 },
 changeHue: function (e) {
-  let huv = e.detail.value;
-  this.setData({
-    "hsv.v":huv,
-    hueColor: this.hsv2rgb(360, 100,huv),
-    colorRes: this.hsv2rgb(this.data.hsv.h, this.data.hsv.s,huv)
-  })
   var that=this
+  let huv = e.detail.value;
+  //定义颜色
+  that.setData({
+    "hsv.v":huv,
+    hueColor: that.hsv2rgb(0, 0,huv),
+    colorRes: that.hsv2rgb(that.data.hsv.h, that.data.hsv.s,huv),
+  })
   newDateTime_2 = (new Date()).valueOf();
+  //设置每20毫秒发送
   if(newDateTime_2-newDateTime>=20){
-    
     if (that.data.page) {
       that.light(that.data.colorRes)
     }
-    time=0;
     newDateTime = (new Date()).valueOf();//获取当前毫秒数
   }
   
 },
-start: function(){
-  if(time==0){
-    time=1;
-    newDateTime = (new Date()).valueOf();//获取当前毫秒数
-  }
-},
+//改变sv
 changeSV: function (e) {
   var that=this
-  
   let {
     x,
     y
   } = e.detail;
-  x = Math.round(x / this.SV.Step);
-  y = 100 - Math.round(y / this.SV.Step);
+  //初始化坐标
+  x = Math.round(x / that.SV.Step);
+  y = 100 - Math.round(y / that.SV.Step);
+  //制作极坐标系
   var X=x-50
   var Y=y-50
   var X_pow
@@ -125,36 +114,27 @@ changeSV: function (e) {
     }
   }
   if (Math.floor(Y_pow)>100) {
-    this.setData({
-      x:Math.floor((45*Math.cos(X_pow)+50)*this.SV.Step),
-      y:Math.floor((50-45*Math.sin(X_pow))*this.SV.Step)
+    that.setData({
+      x:Math.floor((45*Math.cos(X_pow)+50)*that.SV.Step),
+      y:Math.floor((50-45*Math.sin(X_pow))*that.SV.Step)
     })
   }
-  this.setData({
+  //极坐标系定义sv
+  that.setData({
     "hsv.h":Math.floor(X_pow/Math.PI*180),
     "hsv.s": Math.floor(Y_pow),
-    colorRes: this.hsv2rgb(Math.floor(X_pow/Math.PI*180), Math.floor(Y_pow),this.data.hsv.v)
+    colorRes: that.hsv2rgb(Math.floor(X_pow/Math.PI*180), Math.floor(Y_pow),that.data.hsv.v)
   })
+  //每20毫秒发送数据
   newDateTime_2 = (new Date()).valueOf();
   if(newDateTime_2-newDateTime>=20){
   if (that.data.page) {
       that.light(that.data.colorRes)
     }
-    time=0;
     newDateTime = (new Date()).valueOf();//获取当前毫秒数
   }
 },
-close: function close(e) {
-  if (this.data.maskClosable) {
-    this.setData({
-      show: false
-    });
-    this.triggerEvent('close');
-  }
-},
-preventdefault:function() {
-  
-},
+//转换函数（无需更改）
 hsv2rgb: function (h, s, v) {
   let hsv_h = (h / 360).toFixed(2);
   let hsv_s = (s / 100).toFixed(2);
@@ -202,6 +182,7 @@ hsv2rgb: function (h, s, v) {
 
   return 'rgb(' + (Math.floor(rgb_r * 255) + "," + Math.floor(rgb_g * 255) + "," + Math.floor(rgb_b * 255)) + ')';
 },
+//转换函数
 rgb2hsv: function (color) {
   let rgb = color.split(',');
   let R = parseInt(rgb[0].split('(')[1]);
@@ -245,14 +226,12 @@ wx.openBluetoothAdapter({
 success: (res)=> {
 console.log(res,"success")
 resolve('done')
-
 },
 fail: function (res) {
 console.log(res,"fail")
 reject('fail')
 },
 })
-
   })
 },
 //关闭适配器
@@ -278,7 +257,6 @@ wx.startBluetoothDevicesDiscovery({
 services: [],
 success: function (res) {
 console.log(res)
-console.log('second')
   resolve('done')
 },
 fail: function (res) {
@@ -291,34 +269,50 @@ console.log(res, "fail")
 },
 //获取连接设备
 getdevice:function(){
-//连接我的设备
+  var that=this
+//连接我的设备（在这里修改连接设备名称）
 return new Promise(function (resolve, reject) {
-wx.getBluetoothDevices({
+  //延时2秒执行（防止没有搜索到设备）
+setTimeout(()=> {wx.getBluetoothDevices({
 success: function (res) {
 console.log(res)
-i=0;
-while (res.devices[i]) {
-console.log(i);
-console.log(res.devices[i].localName,res.devices[i].deviceId);
-if(res.devices[i].localName=='THE9_FEC150D7'){
-deviceId=res.devices[i].deviceId;
-console.log(deviceId);
+that.setData({
+  i:0
+})
+//遍历查找设备
+while (res.devices[that.data.i]) {
+console.log(that.data.i);
+console.log(res.devices[that.data.i].localName,res.devices[that.data.i].deviceId);
+//localname就是需要连接设备名称
+if(res.devices[that.data.i].localName=='THE9_FEC150D7'){
+  that.setData({
+    deviceId:res.devices[that.data.i].deviceId
+  })
+console.log(that.data.deviceId);
 }
-i++;
+that.setData({
+  i:that.data.i+1
+})
+}
+if (that.data.deviceId==null) {
+  that.setData({
+    case:1
+  })
 }
 resolve('done')
 },
-})
+})},2000)
 
 })
 },
 //连接设备
 connectdevice:function(){
+  var that=this
   return new Promise(function (resolve, reject) {
 wx.createBLEConnection({
-deviceId: deviceId,
+deviceId: that.data.deviceId,
 success: (res) =>{
-
+  //连上后关闭搜索设备，防止继续占用资源
 wx.stopBluetoothDevicesDiscovery({
   success: () => {
     console.log("连接结束，关闭搜索");
@@ -336,20 +330,28 @@ fail: function(res){
 },
 //获取服务
 getservice:function(){
+  this.setData({
+    page: true//实时更换颜色
+  })
+  var that=this
   return new Promise(function (resolve, reject) {
 wx.getBLEDeviceServices({
-deviceId: deviceId,
-success: function(res) {
+deviceId: that.data.deviceId,
+success: (res)=> {
 console.log(res.services);
-i=0;
-while(res.services[i]){
-serviceId[i]=res.services[i].uuid;
-console.log(serviceId[i]);
-i++;
-}
 that.setData({
-  page: true//实时更换颜色
+  i:0
 })
+//便利获取全部服务
+while(res.services[that.data.i]){
+  that.setData({
+    ['serviceId[that.data.i]']:res.services[that.data.i].uuid
+  })
+console.log(that.data.serviceId[that.data.i]);
+that.setData({
+  i:that.data.i+1
+})
+}
 resolve('done')
 },
 fail: function(){
@@ -361,16 +363,24 @@ fail: function(){
 },
 //获取特征值
 getcharacteristics:function(){
+  var that=this
   return new Promise(function (resolve, reject) {
 wx.getBLEDeviceCharacteristics({
-deviceId: deviceId,
-serviceId: serviceId[1],
+deviceId: that.data.deviceId,
+serviceId: that.data.serviceId[1],
 success: function (res) {
-i=0;
-while(res.characteristics[i]){
-characteristicId[i]=res.characteristics[i].uuid;
-console.log(res.characteristics[i].prototype);
-i++;
+that.setData({
+  i:0
+})
+//遍历获取所有特征值
+while(res.characteristics[that.data.i]){
+  that.setData({
+    ['characteristicId[that.data.i]']:res.characteristics[that.data.i].uuid
+  })
+console.log(res.characteristics[that.data.i].prototype);
+that.setData({
+  i:that.data.i+1
+})
 }
 resolve('done')
 },
@@ -384,12 +394,13 @@ fail: function(res){
 },
 //开启notify
 startnotify:function(){
+  var that=this
   return new Promise(function (resolve, reject) {
 wx.notifyBLECharacteristicValueChange({
 state: true,
-deviceId: deviceId,
-serviceId: serviceId[1],
-characteristicId: characteristicId[0],
+deviceId: that.data.deviceId,
+serviceId: that.data.serviceId[1],
+characteristicId: that.data.characteristicId[0],
 success: function (res) {
 console.log('notifyBLECharacteristicValueChange success', res)
 },
@@ -398,6 +409,7 @@ console.log(res)
 reject('fail')
 }
 })
+//转换函数
 function arrayBufferToString(arr){
   if(typeof arr === 'string') {  
       return arr;  
@@ -427,8 +439,8 @@ function arrayBufferToString(arr){
   }  
   return str; 
 }
+//监听收到的数据
 wx.onBLECharacteristicValueChange(function(res) {
-  console.log(`characteristic ${res.characteristicId} has changed, now is ${res.value}`)
   console.log(arrayBufferToString(res.value))
 })
 resolve('done')
@@ -436,7 +448,9 @@ resolve('done')
 },
 //点灯
 light:function(rgb_now){
+var that=this
 let buf ='APP+COR+';
+//转换函数
 const rgb2hex = (color) => {
   let rgb = color.split(',');
   let R = parseInt(rgb[0].split('(')[1]);
@@ -474,24 +488,29 @@ function stringToArrayBuffer(str) {
 	return array.buffer;
 }
 console.log(rgb_now)
-  //写入rgb
+  //写入rgb（发送协议数据）
 wx.writeBLECharacteristicValue({
-    deviceId: deviceId,
-    serviceId: serviceId[1],
-    characteristicId: characteristicId[1],
+    deviceId: that.data.deviceId,
+    serviceId: that.data.serviceId[1],
+    characteristicId: that.data.characteristicId[1],
     value: stringToArrayBuffer(buf+rgb2hex(rgb_now)),
     success:  (res)=> {
-    console.log('writeBLECharacteristicValue success', res.errMsg),
     console.log(buf+rgb2hex(rgb_now))
     },
     fail: function(res){
       console.log(res)
+      that.setData({
+        case:1
+      })
     }
     })
 
 },
+//写入开始数据
 write: function(){
+  var that=this
   let buf='APP+MOD+FRE';
+  //转换函数
   function stringToArrayBuffer(str) {
     var bytes = new Array(); 
     var len,c;
@@ -523,9 +542,9 @@ write: function(){
   //写入开始数据
   return new Promise(function (resolve, reject) {
   wx.writeBLECharacteristicValue({
-  deviceId: deviceId,
-  serviceId: serviceId[1],
-  characteristicId: characteristicId[1],
+  deviceId: that.data.deviceId,
+  serviceId: that.data.serviceId[1],
+  characteristicId: that.data.characteristicId[1],
   value: stringToArrayBuffer(buf),
   success: function (res) {
   console.log('writeBLECharacteristicValue success', res.errMsg)
@@ -540,37 +559,55 @@ write: function(){
 },
 //关闭设备连接
 close: function(){
-  wx.closeBLEConnection({
-    deviceId: deviceId
-  })
   wx.closeBluetoothAdapter({
     success: (res) => {
       console.log(res);
     },
   })
-  this.setData({
-    page:false,
-    start:false,
-    loading:false
-  })
 },
 //总和测试
 async whole(){
   var that=this;
-  that.setData({
-    start: true
+  const adapter=await that.openadapter();//开启适配器
+  const discovery= await that.opendiscovery();//打开蓝牙搜索
+  const device=await that.getdevice()//获取设备名称
+  if (that.data.case==-1) {
+    const connect=await that.connectdevice()//连接设备
+    const service=await that.getservice()//获取服务
+    const character=await that.getcharacteristics()//获取特征值
+    const notify=await that.startnotify()//开启notify
+    const write=await that.write()//写入开始数据
+    that.setData({
+      case:0//重置case，用于界面显示蓝牙已连接
+    })
+  }else if (that.data.case==1) {
+    const reconnect=await that.reconnect('未找到设备，是否重连')
+  }
+},
+//是否重连
+reconnect: function (content) {
+  var that=this
+  return new Promise(function (resolve, reject) {
+  wx.showModal({
+    title: '提示',
+    content: content,
+    success (res) {
+      //选择确认
+      if (res.confirm) {
+        that.setData({
+          case:-1
+        })
+        that.whole()
+      } else if (res.cancel) {
+        console.log('用户点击取消')
+      }
+      resolve('done')
+    },
+    fail(){
+      reject('fail')
+    }
   })
-  const adapter=await that.openadapter();
-  const discovery= await that.opendiscovery();
-  const device=await that.getdevice()
-  const connect=await that.connectdevice()
-  const service=await that.getservice()
-  const character=await that.getcharacteristics()
-  const notify=await that.startnotify()
-  const write=await that.write()
-  that.setData({
-    load:true
-  })
+})
 },
 //基础颜色设置
 setRed: function () {
@@ -583,7 +620,7 @@ setGreen: function () {
   this.light('rgb(0,255,0)')
 },
 setBlack: function () {
-  this.light('rgb(0,0,0)')
+  this.light('rgb(10,10,10)')
 },
 setWhite: function () {
   this.light('rgb(255,255,255)')

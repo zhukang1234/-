@@ -1,4 +1,5 @@
 /* pages/fird/fird.wxss */
+/*分数显示区域*/
 .score {
   display: flex;
   align-items: center;
@@ -7,6 +8,7 @@
   font-size: 100px;
   margin-bottom: 10px;
 }
+/*分数显示框*/
 .score_head {
   display: flex;
   align-items: center;
@@ -20,18 +22,22 @@
   border-bottom-right-radius: 10px;
   background-color: lightgray;
 }
+/*红队分数显示*/
 .score_r {
   color: #ef3340;
 }
+/*蓝队分数显示*/
 .score_b {
   color: #1e90ff;
 }
+/*修改分数区*/
 .Change {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: row;
 }
+/*分数中间分割线区域*/
 .Line {
   display: flex;
   align-items: center;
@@ -39,14 +45,14 @@
   width: 20%;
   height: 200px;
 }
+/*分数分割线*/
 .line {
   display: flex;
-
   width: 1px;
   height: 70%;
-
   background-color: #b3b3b3 ;
 }
+/*红方按键区*/
 .Red {
   display: flex;
   align-items: center;
@@ -58,6 +64,7 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+/*蓝方按键区*/
 .Blue {
   display: flex;
   align-items: center;
@@ -69,7 +76,7 @@
   padding-left: 10px;
   padding-right: 10px;
 }
-
+/*红方按钮*/
 .R_button {
   align-items: center;
   justify-content: center;
@@ -81,6 +88,7 @@
   margin-top: 20px;
   border-radius: 50%;
 }
+/*蓝方按钮*/
 .B_button {
   align-items: center;
   justify-content: center;
@@ -92,34 +100,39 @@
   margin-top: 20px;
   border-radius: 50%;
 }
-.mul {
-  
+/*分数显示分隔符*/
+.mul { 
   color:darkgray;
 }
+/*红方加分键*/
 .red-1 {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 50%;
 }
+/*红方扣分键*/
 .red-2 {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 50%;
 }
+/*蓝方加分键*/
 .blue-1{
   display: flex;
   align-items: center;
   justify-content: center;
   height: 50%;
 }
+/*蓝方扣分键*/
 .blue-2{
   display: flex;
   align-items: center;
   justify-content: center;
   height: 50%;
 }
+/*图片样式*/
 image {
   width: 100%;
 }

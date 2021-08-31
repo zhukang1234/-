@@ -1,0 +1,6 @@
+<!--pages/tcp/tcp.wxml-->
+<button bindtap="connect">连接</button>
+<button bindtap="write">写入数据</button>
+<input class="weui-input"  maxlength="20" confirm-type="done" bindblur="bindKeyInput_ip" type="digit" placeholder="输入ip地址"/>
+<input class="weui-input"  maxlength="20" confirm-type="done" bindblur="bindKeyInput_port" type="number" placeholder="输入端口号"/>
+<input class="weui-input"  maxlength="20" confirm-type="done" bindblur="bindKeyInput_command" placeholder="输入命令"/>

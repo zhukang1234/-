@@ -1,0 +1,8 @@
+<!--pages/user/user.wxml-->
+<view class="whole">
+<!--获取个人信息（隐私信息如地址电话需要用到隐私接口）-->
+  <view class="userinfo-avatar" bindtap="bindViewTap">
+        <open-data type="userAvatarUrl"></open-data>
+      </view>
+      <open-data type="userNickName"></open-data>
+</view>

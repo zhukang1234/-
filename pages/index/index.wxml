@@ -1,9 +1,27 @@
-
-
-<button bindtap='Topage2'>点灯</button>
-<button bindtap="Topage">跳转音乐</button>
-<button bindtap="Topage1">分数</button>
-<!--
-<view class="devices_summary">已发现 {{devices.length}} 个外围设备：</view>
--->
-
+<!--轮播图-->
+<!--indicator-dots,autoplay为轮播图参数，详细参数描述我会放进文档里-->
+<swiper indicator-dots='true' autoplay='true' interval='5000'  duration='1000' circular='true'>
+<!--block为包装元素，建议所有涉及wx:for,wx:if等都用这个元素包装-->
+<!--如果使用wx:for,建议加上wx:key来提高性能-->
+       <block wx:for="{{movies}}" wx:for-index="index" wx:key="id">
+       <!--swiper内只能包含swiper-item组件（block为包装元素，所以不算）-->
+         <swiper-item>
+           <image class="mid" mode="aspectFit" src='{{item.url}}' mode='aspectFit'></image>
+         </swiper-item>
+       </block>
+     </swiper>
+<view class="title">
+<text class="head">有鹏教育</text>
+<text>动手科技，创新未来</text>
+</view>
+<!--这个是中间的单张图片-->
+<image class="mid" src="http://test.top10baike.com/wp-content/uploads/2021/08/006-scaled.jpg"></image>
+<!--以下为下四张图片布局-->
+<view class="divide">
+  <image class="buttom" mode="aspectFit" src="http://test.top10baike.com/wp-content/uploads/2021/08/007-scaled.jpg"></image>
+  <image class="buttom" mode="aspectFit" src="http://test.top10baike.com/wp-content/uploads/2021/08/008-scaled.jpg"></image>
+</view>
+<view class="divide">
+  <image class="buttom" mode="aspectFit" src="http://test.top10baike.com/wp-content/uploads/2021/08/009-scaled.jpg"></image>
+  <image class="buttom" mode="aspectFit" src="http://test.top10baike.com/wp-content/uploads/2021/08/010-scaled.jpg"></image>
+</view>

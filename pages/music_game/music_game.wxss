@@ -1,1 +1,41 @@
 /* pages/music_game/music_game.wxss */
+/*乐器未被敲击时*/
+.show {
+  transform: none;
+}
+/*乐器被敲击时*/
+.click {
+  transform: scale(0.9, 0.9);
+}
+/*图片统一定义*/
+image {
+  position: relative;
+  width: 40vw;
+  height: 20vh;
+}
+/*游戏区统一定义*/
+.game {
+  display: flex;
+  flex-direction: column;
+}
+/*游戏区上方两个按键定义*/
+.up {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 30vh;
+}
+/*游戏区中间两个按键定义*/
+.middle {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 20vh;
+}
+/*游戏区下方两个按键定义*/
+.down {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 30vh;
+}

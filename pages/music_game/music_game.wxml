@@ -1,2 +1,33 @@
-<button bindtap='start'>开始连接</button>
+<!--界面设置-->
+<button wx:if="{{case==2}}">蓝牙已连接</button>
+<button wx:if="{{show}}" bindtap='start'>开始连接</button>
+<loading wx:if="{{show}}" hidden="{{start}}">蓝牙连接中</loading>
 <button bindtap="close">关闭设备</button>
+<button wx:if="{{case==-1}}">未找到设备</button>
+<button wx:if="{{case==0}}">未找到设备1</button>
+<button wx:if="{{case==1}}">未找到设备2</button>
+<!--游戏区-->
+<view class="game">
+  <!--上方-->
+  <view class="up">
+  <!--现在使用的是本地图片和音频，以后可以放到服务器上，或者分包，减少程序包压力-->
+    <image wx:if="{{touch_case[2]}}" src="./image/Hi-Hat.jpeg" class="show" style="top: 10vh; left: 10vw"></image>
+    <image wx:else src="./image/Hi-Hat.jpeg" class="click" style="top: 10vh; left: 10vw"></image>
+    <image wx:if="{{touch_case[3]}}" src="./image/Crash-Cymbal.jpeg" class="show" style="left:10vw"></image>
+    <image wx:else src="./image/Crash-Cymbal.jpeg" class="click" style="left:10vw"></image>
+  </view>
+  <!--中间-->
+  <view class="middle">
+    <image wx:if="{{touch_case[0]}}" src="./image/OIP-C_down.jpeg" class="show"></image>
+    <image wx:else src="./image/OIP-C_down.jpeg" class="click"></image>
+    <image wx:if="{{touch_case[5]}}" src="./image/Tom-Tom-Drum.jpeg" class="show"></image>
+    <image wx:else src="./image/Tom-Tom-Drum.jpeg" class="click"></image>
+  </view>
+  <!--下方-->
+  <view class="down">
+    <image wx:if="{{touch_case[1]}}" src="./image/Tom-Tom-Drum.jpeg" class="show" style="left:10vw"></image>
+    <image wx:else src="./image/Tom-Tom-Drum.jpeg" class="click" style="left:10vw"></image>
+    <image wx:if="{{touch_case[4]}}" src="./image/Ride-Cymbal.jpeg" class="show" style="left:10vw;top: 10vh"></image>
+    <image wx:else src="./image/Ride-Cymbal.jpeg" class="click" style="left:10vw;top: 10vh"></image>
+  </view>
+</view>
